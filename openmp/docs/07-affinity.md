@@ -1,151 +1,20 @@
+<!--
+SPDX-FileCopyrightText: 2010 CSC - IT Center for Science Ltd. <www.csc.fi>
+
+SPDX-License-Identifier: CC-BY-4.0
+-->
+
 ---
-title:  Using MPI with OpenMP threads
-event:  CSC Summer School in High-Performance Computing 2025
+title:  Process and thread affinity
+event:  CSC Summer School in High-Performance Computing 2026
 lang:   en
 ---
 
 # Outline
 
-- Using MPI+OpenMP
-- Thread and process affinity
+- Process and thread affinity
 
-# Using MPI+OpenMP {.section}
-
-# Thread support in MPI
-
-![](img/mpi-thread-support.svg){.center width=80%}
-
-
-# Thread safe initialization
-
-MPI_Init_thread(`required`{.input}, `provided`{.output})
-  : Initializes the MPI execution environment
-  : Note! C interface include command line arguments
-
-<p>
-- Thread safety levels `required` and `provided` are pre-defined integer constants:<br>
-  `MPI_THREAD_SINGLE < MPI_THREAD_FUNNELED < `<br>`MPI_THREAD_SERIALIZED < MPI_THREAD_MULTIPLE`
-
-# Example: Hybrid hello
-
-<!-- Presentation suggestion: live coding for hybrid hello -->
-<div class="column">
-```c
-#include <mpi.h>
-#include <omp.h>
-
-int main(int argc, char *argv[]) {
-    int rank, thread_id;
-    int provided, required=MPI_THREAD_FUNNELED;
-    MPI_Init_thread(&argc, &argv,
-                    required, &provided);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-#pragma omp parallel private(thread_id)
-{
-    thread_id = omp_get_thread_num();
-    printf("I'm thread %d in process %d\n",
-           thread_id, rank);
-}
-    MPI_Finalize();
-}
-```
-</div>
-
-<div class="column">
-```shell
-$ cc -fopenmp hybrid-hello.c -o hybrid-hello
-$ srun  --ntasks=2 --cpus-per-task=4
-  ./hybrid-hello
-
-I'm thread 0 in process 0
-I'm thread 0 in process 1
-I'm thread 2 in process 1
-I'm thread 3 in process 1
-I'm thread 1 in process 1
-I'm thread 3 in process 0
-I'm thread 1 in process 0
-I'm thread 2 in process 0
-```
-</div>
-
-
-# Multiple thread communication
-
-- Hybrid programming is relatively straightforward in cases where
-  communication is done by only a single thread at a time
-- In `MPI_THREAD_MULTIPLE` thread safety level all threads can make MPI calls independently
-- When multiple threads communicate, the sending and receiving threads normally need to match
-  - Use thread-specific tags or thread-specific communicators
-
-
-# Thread-specific tags
-
-- In point-to-point communication the thread ID can be used to
-  generate a tag that guides the messages to the correct thread
-
-![](img/multiple-thread-communication.svg){.center width=60%}
-
-
-# Thread-specific tags
-
-- In point-to-point communication the thread ID can be used to
-  generate a tag that guides the messages to the correct thread
-
-```fortranfree
-!$omp parallel private(tid, tidtag, ierr)
-tid = omp_get_thread_num()
-tidtag = 2**10 + tid
-
-! mpi communication to the corresponding thread on another process
-call mpi_sendrecv(senddata, n, mpi_real, pid, tidtag, &
-                  recvdata, n, mpi_real, pid, tidtag, &
-                  mpi_comm_world, stat, ierr)
-
-!$omp end parallel
-```
-
-
-# Collective operations in the multiple mode
-
-- MPI standard allows multiple threads to call collectives simultaneously
-  -  Programmer must ensure that the collective calls are correctly ordered
-     if using the same communicator in the collective calls
-- In most cases, even with `MPI_THREAD_MULTIPLE` it is often better to
-  perform the collective communication from a single thread (usually the
-  master thread)
-
-
-# MPI thread support levels
-
-- Modern MPI libraries support all threading levels
-  - LUMI and Mahti support all threading levels
-- Note that using `MPI_THREAD_MULTIPLE` requires the MPI library to
-  internally lock some data structures to avoid race conditions
-  - May result in additional overhead in MPI calls
-
-# Checking the thread support level in the program
-
-```cpp
-MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provided);
-
-/* Check that the MPI implementation supports MPI_THREAD_MULTIPLE */
-if (provided < MPI_THREAD_MULTIPLE) {
-    printf("MPI does not support MPI_THREAD_MULTIPLE\n");
-    MPI_Abort(MPI_COMM_WORLD, -1);
-    return 0;
-}
-```
-
-
-# Summary
-
-- Multiple threads may make MPI calls simultaneously
-- Thread-specific tags and/or communicators
-- For collectives it is often better to use a single thread for communication
-
-
-# Thread and process affinity {.section}
+# Process and thread affinity {.section}
 
 # Non-uniform memory access
 
@@ -168,7 +37,6 @@ if (provided < MPI_THREAD_MULTIPLE) {
 
 # NUMA aware initialization
 
-<div class=column>
 - No NUMA awareness
 
 ```c
@@ -181,15 +49,9 @@ for (int i=0; i < N; i++)
 for (int i=0; i < N; i++)
    process(data[i])
 ```
-</div>
-<div class=column>
-<!-- Image copyright Intel -->
-![](img/init-nonuma.png){.center width=80%}
-</div>
 
 # NUMA aware initialization
 
-<div class=column>
 - With NUMA awareness
 
 ```c
@@ -203,11 +65,6 @@ for (int i=0; i < N; i++)
 for (int i=0; i < N; i++)
    process(data[i])
 ```
-</div>
-<div class=column>
-<!-- Image copyright Intel -->
-![](img/init-numa.png){.center width=80%}
-</div>
 
 # Thread and process affinity
 
@@ -310,9 +167,12 @@ Thread 003 affinity 3,7
   - Always experiment before production calculations!
 
 
+# Summary {.section}
 # Summary
 
 - Performance of HPC applications is often improved when processes and
   threads are pinned to CPU cores
 - MPI and batch system configurations may affect the affinity
     - Very system dependent, try to always investigate
+
+
