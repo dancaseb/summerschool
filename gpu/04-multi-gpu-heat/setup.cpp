@@ -2,10 +2,11 @@
 #include <cstdlib>
 #include <iostream>
 #include "heat.hpp"
+#include "matrix.hpp"
 
-
-void initialize(int argc, char *argv[], Field& current,
-                Field& previous, int& nsteps, ParallelData parallel)
+template<storage_spec mem_location>
+void initialize(int argc, char *argv[], Field<mem_location>& current,
+                Field<mem_location>& previous, int& nsteps, ParallelData parallel)
 {
     /*
      * Following combinations of command line arguments are possible:
@@ -60,10 +61,11 @@ void initialize(int argc, char *argv[], Field& current,
         read_field(current, input_file, parallel);
     } else {
         current.setup(rows, cols, parallel);
+        previous.setup(rows, cols, parallel);
         current.generate(parallel);
     }
 
     // copy "current" field also to "previous"
-    previous = current;
+    previous.temperature.copy(current.temperature);
 
 }

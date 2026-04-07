@@ -11,18 +11,18 @@
 #include "pngwriter.h"
 
 // Write a picture of the temperature field
-void write_field(const Field& field, const int iter, const ParallelData parallel)
+void write_field(const Field<HOST_ONLY>& field, const int iter, const ParallelData parallel)
 {
 
     auto height = field.nx * parallel.size;
     auto width = field.ny;
 
     // array for MPI sends and receives
-    auto tmp_mat = Matrix<double> (field.nx, field.ny);
+    auto tmp_mat = Matrix<double, HOST_ONLY> (field.nx, field.ny);
 
     if (0 == parallel.rank) {
         // Copy the inner data
-        auto full_data = Matrix<double>(height, width);
+        auto full_data = Matrix<double, HOST_ONLY>(height, width);
         for (int i = 0; i < field.nx; i++)
             for (int j = 0; j < field.ny; j++)
                  full_data(i, j) = field(i + 1, j + 1);
@@ -54,7 +54,7 @@ void write_field(const Field& field, const int iter, const ParallelData parallel
 }
 
 // Read the initial temperature distribution from a file
-void read_field(Field& field, std::string filename,
+void read_field(Field<HOST_ONLY>& field, std::string filename,
                 const ParallelData parallel)
 {
     std::ifstream file;
@@ -67,10 +67,10 @@ void read_field(Field& field, std::string filename,
 
     field.setup(nx_full, ny_full, parallel);
 
-    auto full = Matrix<double> (nx_full, ny_full);
+    auto full = Matrix<double, HOST_ONLY> (nx_full, ny_full);
 
     // Inner region (no boundaries)
-    auto inner = Matrix<double> (field.nx, field.ny);
+    auto inner = Matrix<double, HOST_ONLY> (field.nx, field.ny);
 
     if (0 == parallel.rank) {
         // Read the full array

@@ -2,6 +2,8 @@
 #include <string>
 #include "matrix.hpp"
 #include <mpi.h>
+#include <iostream>
+#include <utility>
 
 // Class for basic parallelization information
 struct ParallelData {
@@ -27,10 +29,7 @@ struct ParallelData {
 
 };
 
-// Class for temperature field
-
-template <storage_spec mem_location>
-struct Field {
+struct FieldInfo {
     // nx and ny are the true dimensions of the field. The temperature matrix
     // contains also ghost layers, so it will have dimensions nx+2 x ny+2
     int nx;                     // Local dimensions of the field
@@ -39,32 +38,49 @@ struct Field {
     int ny_full;                // Global dimensions of the field
     double dx = 0.01;           // Grid spacing
     double dy = 0.01;
+};
 
-    Matrix<double, mem_location> temperature;
+// Class for temperature field
+template <storage_spec mem_location>
+struct Field : FieldInfo{};
 
-    void setup(int nx_in, int ny_in, ParallelData parallel);
+template<>
+struct Field<HOST_ONLY> : FieldInfo
+{
+        Matrix<double, HOST_ONLY> temperature;
 
-    void generate(ParallelData parallel);
+        Field<HOST_ONLY>();
 
-    // standard (i,j) syntax for setting elements
-    double& operator()(int i, int j) {return temperature(i, j);}
+        friend void swap(Field<HOST_ONLY>& a, Field<HOST_ONLY>& b) {
+                using std::swap;
+                swap(static_cast<FieldInfo&>(a), static_cast<FieldInfo&>(b));
+                swap(a.temperature, b.temperature);
+        };
 
-    // standard (i,j) syntax for getting elements
-    const double& operator()(int i, int j) const {return temperature(i, j);}
+        void setup(int nx_in, int ny_in, ParallelData parallel);
 
+        void generate(ParallelData parallel);
+
+        // standard (i,j) syntax for setting elements
+        double& operator()(int i, int j) {return temperature(i, j);}
+
+        // standard (i,j) syntax for getting elements
+        const double& operator()(int i, int j) const {return temperature(i, j);}
 };
 
 // Function declarations
-void initialize(int argc, char *argv[], Field& current,
-                Field& previous, int& nsteps, ParallelData parallel);
+void initialize(int argc, char *argv[], Field<HOST_ONLY>& current,
+                Field<HOST_ONLY>& previous, int& nsteps, ParallelData parallel);
 
-void exchange(Field& field, const ParallelData parallel);
+void exchange(Field<HOST_ONLY>& field, const ParallelData parallel);
 
-void evolve(Field& curr, const Field& prev, const double a, const double dt);
+void evolve(Field<HOST_ONLY>& curr, const Field<HOST_ONLY>& prev, const double a, const double dt);
 
-void write_field(const Field& field, const int iter, const ParallelData parallel);
+void write_field(const Field<HOST_ONLY>& field, const int iter, const ParallelData parallel);
 
-void read_field(Field& field, std::string filename,
+void read_field(Field<HOST_ONLY>& field, std::string filename,
                 const ParallelData parallel);
 
-double average(const Field& field, const ParallelData parallel);
+double average(const Field<HOST_ONLY>& field, const ParallelData parallel);
+
+double average(const Field<HOST_ONLY>& field, const ParallelData parallel);

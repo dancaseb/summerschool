@@ -32,8 +32,6 @@ void exchange(Field<mem_location>& field, const ParallelData parallel)
 
 }
 
-void exchange(Field<HOST_ONLY>& field, const ParallelData parallel { exchange(field, parallel); }
-
 // Update the temperature values using five-point stencil */
 void evolve(Field<HOST_ONLY>& curr, const Field<HOST_ONLY>& prev, const double a, const double dt)
 {

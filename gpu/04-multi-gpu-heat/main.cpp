@@ -6,9 +6,12 @@
 #include <mpi.h>
 
 #include "heat.hpp"
+#include "setup.cpp"
+#include "core.hpp"
 
 int main(int argc, char **argv)
 {
+   using std::swap;
 
     MPI_Init(&argc, &argv);
 
@@ -17,8 +20,9 @@ int main(int argc, char **argv)
     ParallelData parallelization; // Parallelization info
 
     int nsteps;                 // Number of time steps
-    Field current, previous;    // Current and previous temperature fields
-    initialize(argc, argv, current, previous, nsteps, parallelization);
+    Field<HOST_ONLY> current;
+    Field<HOST_ONLY> previous;    // Current and previous temperature fields
+    initialize<HOST_ONLY>(argc, argv, current, previous, nsteps, parallelization);
 
     // Output the initial field
     write_field(current, 0, parallelization);
@@ -45,14 +49,14 @@ int main(int argc, char **argv)
 
     // Time evolve
     for (int iter = 1; iter <= nsteps; iter++) {
-        exchange(previous, parallelization);
+        exchange<HOST_ONLY>(previous, parallelization);
         evolve(current, previous, a, dt);
         if (iter % image_interval == 0) {
             write_field(current, iter, parallelization);
         }
         // Swap current field so that it will be used
         // as previous for next iteration step
-        std::swap(current, previous);
+        swap(current, previous);
     }
 
     auto stop_clock = MPI_Wtime();

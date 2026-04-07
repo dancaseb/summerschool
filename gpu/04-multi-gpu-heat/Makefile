@@ -29,22 +29,37 @@ LDFLAGS=-L$(LIBPNG_DIR)/lib -Wl,-rpath=$(LIBPNG_DIR)/lib
 LIBS=-lpng
 endif
 
+ifeq ($(COMP),mahti)
+LIBPNG_DIR=./libpng/usr
+HOP_ROOT=./hop
+CXX=mpiCC
+CC=mpicc
+CUCC=nvcc
+CCFLAGS=-g -DUSE_GPU -x cu -O3 -I$(COMMONDIR) -I$(LIBPNG_DIR)/include/libpng16 -I$(HOP_ROOT) -I$(HOP_ROOT)/source/hip -DHOP_TARGET_CUDA
+CFLAGS=-g -O3 -Wall -I$(COMMONDIR) -I$(LIBPNG_DIR)/include/libpng16 -I$(HOP_ROOT) -I$(HOP_ROOT)/source/hip -DHOP_TARGET_CUDA
+CUFLAGS=-g -DUSE_GPU -O3 -Xcompiler -Wall -I$(COMMONDIR) -I$(LIBPNG_DIR)/include/libpng16 -I$(HOP_ROOT) -I$(HOP_ROOT)/source/hip -DHOP_TARGET_CUDA
+LDFLAGS=-cuda -L$(LIBPNG_DIR)/lib64 -Wl,-rpath=$(LIBPNG_DIR)/lib
+LIBS=-lpng
+endif
+
 
 EXE=heat_mpi
-OBJS=main.o heat.o core.o setup.o io.o utilities.o pngwriter.o
+#OBJS=main.o heat.o core.o setup.o io.o utilities.o pngwriter.o heat-gpu.o
+OBJS=main.o heat.o io.o utilities.o pngwriter.o heat-gpu.o
 
 
 all: $(EXE)
 
 utilities.o: utilities.cpp heat.hpp
 heat.o: heat.cpp heat.hpp matrix.hpp
-core.o: core.cpp heat.hpp
 setup.o: setup.cpp heat.hpp
 io.o: io.cpp heat.hpp matrix.hpp
 main.o: main.cpp heat.hpp
+pngwriter.o: pngwriter.c
+heat-gpu.o: heat-gpu.cu heat-gpu.hpp
 
 $(EXE): $(OBJS)
-	$(CXX) $(CCFLAGS) $(OBJS) -o $@ $(LDFLAGS) $(LIBS)
+	$(CXX) $(OBJS) -o $@ $(LDFLAGS) $(LIBS)
 
 
 %.o: $(COMMONDIR)/%.c
@@ -54,7 +69,10 @@ $(EXE): $(OBJS)
 	$(CXX) $(CCFLAGS) -c $< -o $@
 
 %.o: %.c
-	$(CC) $(CCFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: %.cu
+	$(CUCC) $(CUFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:
