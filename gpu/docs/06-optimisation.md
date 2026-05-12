@@ -379,6 +379,7 @@ __global__ void copy(int width, int height, float *A, float *B)
 ```
 </div>
 </small>
+
 # 3. Optimize memory accesses: use LDS 
 
 - Accessing shared memory is faster than the global device memory
