@@ -4,10 +4,6 @@ Hello! Welcome to the first of many GPU exercises!
 
 We're going to start with simple programs and learn some fundamental concepts.
 
-You should follow this document along and complete any exercises you meet, then return back to this document.
-
-The exercises will be in separate directories, and you will be pointed to them.
-
 Let's get started!
 
 ## Exercise: Compiling HIP code
