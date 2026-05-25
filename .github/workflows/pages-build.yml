@@ -38,6 +38,7 @@ jobs:
 
           slidefactory pages about.yml build \
               --filters tools/mpi_links.py \
+              --pandoc-args='--strip-comments' \
               --info_content "Updated for [$GIT_SHORT_SHA]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA) ($GIT_DATE)" \
               $ARGS
 
