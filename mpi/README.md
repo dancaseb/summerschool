@@ -27,7 +27,7 @@ See the [exercises directory](exercises/) for MPI exercises.
 
 ## Web resources
 
-- List of MPI functions with detailed descriptions
+- MPI user documentation with detailed function descriptions
   - <https://docs.open-mpi.org/en/v5.0.x/man-openmpi/man3/index.html>
   - <https://www.mpich.org/static/docs/v4.2.x/>
   - <https://rookiehpc.org/mpi/docs/>
@@ -37,3 +37,5 @@ See the [exercises directory](exercises/) for MPI exercises.
   - <https://www.youtube.com/watch?v=BPSgXQ9aUXY>
 - MPI coding game in C
   - <https://www.codingame.com/playgrounds/47058/have-fun-with-mpi-in-c/lets-start-to-have-fun-with-mpi>
+- MPI standard
+  - <https://www.mpi-forum.org/>
