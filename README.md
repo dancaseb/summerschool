@@ -7,7 +7,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # CSC Summer School in High-Performance Computing 2026
 
-This is the material repository for the High-Performance Computing Summer School organized by [CSC - IT Center for Science](https://csc.fi/en/).
+This is the material repository for the High-Performance Computing Summer School organized by [CSC – IT Center for Science](https://csc.fi/en/).
 
 ## Practical information
 
