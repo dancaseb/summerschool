@@ -32,10 +32,10 @@ See [demos](demos/) for demo codes referred to in the slides.
 
 ### Streams, events, and synchronization
 
-- [Basics of streams](exercises/04-streams-basics)
-- [Asynchronous kernels](exercises/04-streams-asynckernel)
-- [Asynchronous memory copy](exercises/04-streams-asyncmemcopy)
-- [Synchronizing with events](exercises/04-streams-eventssync)
+- [1. Basics of streams](exercises/04-streams-basics)
+- [2. Asynchronous kernels](exercises/04-streams-asynckernel)
+- [3. Asynchronous memory copy](exercises/04-streams-asyncmemcopy)
+- [4. Using events to time kernel execution](exercises/04-streams-timings)
 
 ### Memory management
 
