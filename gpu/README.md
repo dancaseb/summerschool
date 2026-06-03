@@ -1,74 +1,43 @@
-# GPU programming exercises
+<!--
+SPDX-FileCopyrightText: 2026 CSC - IT Center for Science Ltd. <www.csc.fi>
 
-There are two types of exercises in this directory.
-First you should go over the [fundamentals](exercises/fundamentals) of GPU programming.
+SPDX-License-Identifier: CC-BY-4.0
+-->
+# GPU programming section
 
-After that, in the [bonus](exercises/bonus) exercises you need to apply the fundamental
-concepts to solve some more advanced cases.
+## Learning objectives
 
-## Introduction to GPUs
+After completing the module, participants should be able to:
 
-- [Mental model](exercises/fundamentals/01-introduction)
 
-## Basics of HIP programming
+- Describe the key architectural features of modern GPUs and explain their implications for performance
+- Explain the programming model of GPUs
+- Develop and run GPU-accelerated applications using CUDA, HIP, and OpenMP offload
+- Implement effective memory management strategies across host and accelerator environments
+- Use performance analysis and profiling tools to identify and diagnose performance bottlenecks in GPU-enabled applications
+- Implement applications utilizing multiple GPUs with MPI
 
-### Fundamentals
 
-- [Seven exercises on the basics](https://github.com/csc-training/summerschool/blob/master/gpu/exercises/fundamentals/02-kernels/README.md)
+## Presentation slides
 
-### Bonus exercises
+Presentation slides are available [here](https://csc-training.github.io/summerschool/main/).
 
-- [Debugging & fixing errors](exercises/bonus/02-kernels/kernel_errors)
-- [Copy 2D kernel](exercises/bonus/02-kernels/copy2d)
 
-## Streams, events, and synchronization
+## Demo codes
 
-### Fundamentals
+See [demos](demos/) for demo codes referred to in the slides.
 
-- [Four exercise on stream and events](exercises/fundamentals/03-streams)
+## Exercises
 
-## Memory management
+See [exercises directory](exercises/) for exercises.
 
-### Fundamentals
+## Web resources
 
-- [API learning exercise](exercises/fundamentals/04-memory)
+- [HIP documentation](https://rocm.docs.amd.com/en/latest/)
+- [rocprof documentation](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/how-to/using-rocprofv3.html)
+- [CUDA documentation](https://docs.nvidia.com/cuda/cuda-programming-guide/index.html)
+- [OpenMP reference guides](https://www.openmp.org/resources/refguides/)
 
-## Kernel optimizations
 
-### Fundamentals
 
-- [Investigate coalescing](exercises/fundamentals/06-optimization/01-coalescing)
-- [Tracing with rocprof](exercises/fundamentals/06-optimization/02-trace)
 
-### Bonus exercises
-
-- [Matrix transpose](exercises/bonus/06-optimization/matrix-transpose)
-
-## OpenMP offloading
-
-### Fundamentals
-
-- [Hello world with OpenMP offloading](exercises/fundamentals/07-openmp/01-hello-world)
-- [Using data environments](exercises/fundamentals/07-openmp/02-sum-dot)
-- [Data movement clauses and reductions](exercises/fundamentals/07-openmp/03-dot-product)
-- [Mimic HIP](exercises/fundamentals/07-openmp/04-mimic-hip)
-
-### Bonus exercises
-
-- [Heat equation](exercises/bonus/07-openmp/heat-equation)
-- [Interoperability with HIP](exercises/bonus/07-openmp/hip-interop)
-- [Jacobi](exercises/bonus/07-openmp/jacobi)
-
-## SYCL
-
-### Fundamentals
-
-- [SYCL exercises](exercises/fundamentals/08-sycl)
-
-## Multi-GPU programming
-
-### Fundamentals
-
-- [Ping-pong with multiple GPUs and MPI](exercises/fundamentals/09-multi-gpu/01-ping-pong)
-- [Vector sum on two GPUs without MPI](exercises/fundamentals/09-multi-gpu/02-vector-sum)
-- [Peer to peer device access](exercises/fundamentals/09-multi-gpu/03-p2pcopy)

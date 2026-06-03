@@ -1,10 +1,16 @@
+<!--
+SPDX-FileCopyrightText: 2025 CSC - IT Center for Science Ltd. <www.csc.fi>
+
+SPDX-License-Identifier: CC-BY-4.0
+-->
+
 ## Prerequisite
 
 Clone the heat equation code.
 
 ```bash
-mkdir -p /scratch/project_462000956/$USER
-cd /scratch/project_462000956/$USER
+mkdir -p /scratch/project_462001452/$USER
+cd /scratch/project_462001452/$USER
 git clone https://github.com/cschpc/heat-equation.git
 cd heat-equation/2d/mpi-openmp
 ```
@@ -27,7 +33,7 @@ Run the program on LUMI to get a reference runtime:
 sbatch << 'EOF'
 #!/bin/bash
 
-#SBATCH -A project_462000956
+#SBATCH -A project_462001452
 #SBATCH -N 2
 #SBATCH -n 16
 #SBATCH -c 16
@@ -46,11 +52,11 @@ Then build with instrumentation:
 bash << 'EOF'
 #!/bin/bash
 
-export EBU_USER_PREFIX=/projappl/project_462000956/EB/
+export EBU_USER_PREFIX=/projappl/project_462001452/EasyBuild/
 
-ml LUMI/24.03
+ml LUMI/25.03
 ml partition/C
-ml Score-P/9.0-cpeGNU-24.03
+ml Score-P/9.4-cpeGNU-25.03
 
 rm ../../common/*.o
 make clean
@@ -66,21 +72,21 @@ Then run an initial summary measurement to figure out the overhead of the instru
 sbatch << 'EOF'
 #!/bin/bash
 
-#SBATCH -A project_462000956
+#SBATCH -A project_462001452
 #SBATCH -N 2
 #SBATCH -n 16
 #SBATCH -c 16
 #SBATCH -t 00:10:00
 #SBATCH -p standard
 
-export EBU_USER_PREFIX=/projappl/project_462000956/EB/
+export EBU_USER_PREFIX=/projappl/project_462001452/EasyBuild/
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export SCOREP_EXPERIMENT_DIRECTORY=scorep_experiment_${SLURM_JOBID}
 
-ml LUMI/24.03
+ml LUMI/25.03
 ml partition/C
-ml Score-P/9.0-cpeGNU-24.03
-ml Scalasca/2.6.2-cpeGNU-24.03
+ml Score-P/9.4-cpeGNU-25.03
+ml Scalasca/2.6.2-cpeGNU-25.03
 
 # Run the analysis
 scalasca \
@@ -109,21 +115,21 @@ Run with the filter:
 sbatch << 'EOF'
 #!/bin/bash
 
-#SBATCH -A project_462000956
+#SBATCH -A project_462001452
 #SBATCH -N 2
 #SBATCH -n 16
 #SBATCH -c 16
 #SBATCH -t 00:10:00
 #SBATCH -p standard
 
-export EBU_USER_PREFIX=/projappl/project_462000956/EB/
+export EBU_USER_PREFIX=/projappl/project_462001452/EasyBuild/
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export SCOREP_EXPERIMENT_DIRECTORY=scorep_experiment_${SLURM_JOBID}
 
-ml LUMI/24.03
+ml LUMI/25.03
 ml partition/C
-ml Score-P/9.0-cpeGNU-24.03
-ml Scalasca/2.6.2-cpeGNU-24.03
+ml Score-P/9.4-cpeGNU-25.03
+ml Scalasca/2.6.2-cpeGNU-25.03
 
 # Run the analysis
 scalasca \
@@ -142,7 +148,7 @@ download the summary from LUMI and open it with CubeGUI:
 ```bash
 wget https://apps.fz-juelich.de/scalasca/releases/cube/4.9/dist/CubeGUI-4.9.AppImage
 chmod +x CubeGUI-4.9.AppImage
-scp lumi:/scratch/project_462000956/juhanala/heat-equation/2d/mpi-openmp/scorep_experiment_11503172/trace.cubex .
+scp lumi:/scratch/project_462001452/juhanala/heat-equation/2d/mpi-openmp/scorep_experiment_11503172/summary.cubex .
 ./CubeGUI-4.9.AppImage summary.cubex
 ```
 
@@ -152,22 +158,22 @@ scp lumi:/scratch/project_462000956/juhanala/heat-equation/2d/mpi-openmp/scorep_
 sbatch << 'EOF'
 #!/bin/bash
 
-#SBATCH -A project_462000956
+#SBATCH -A project_462001452
 #SBATCH -N 2
 #SBATCH -n 16
 #SBATCH -c 16
 #SBATCH -t 00:10:00
 #SBATCH -p standard
 
-export EBU_USER_PREFIX=/projappl/project_462000956/EB/
+export EBU_USER_PREFIX=/projappl/project_462001452/EasyBuild/
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export SCOREP_EXPERIMENT_DIRECTORY=scorep_experiment_${SLURM_JOBID}
 export SCOREP_TOTAL_MEMORY=88MB
 
-ml LUMI/24.03
+ml LUMI/25.03
 ml partition/C
-ml Score-P/9.0-cpeGNU-24.03
-ml Scalasca/2.6.2-cpeGNU-24.03
+ml Score-P/9.4-cpeGNU-25.03
+ml Scalasca/2.6.2-cpeGNU-25.03
 
 export SCAN_TRACE_FILESYS=${PWD}${SCAN_TRACE_FILESYS:+:${SCAN_TRACE_FILESYS}}
 
