@@ -17,17 +17,18 @@ int main(int argc, char* argv[])
 
     // Seed (random by default)
     std::random_device rd;
-    unsigned int seed = rd();
+    int seed = static_cast<int>(rd());
     if (argc > 2) {
         seed = std::stoi(argv[2]);
     }
-    printf("Seed: %d\n", static_cast<int>(seed));
+    printf("Seed: %d\n", seed);
 
     // Start timing
     double t0 = omp_get_wtime();
 
     // Create a random number generator
-    std::mt19937_64 rng(seed);
+    std::seed_seq seq{seed};
+    std::mt19937_64 rng(seq);
     std::uniform_real_distribution<double> dis(0.0, 1.0);
 
     double total_distance = 0.0;

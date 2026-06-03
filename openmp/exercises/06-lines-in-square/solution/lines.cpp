@@ -17,11 +17,11 @@ int main(int argc, char* argv[])
 
     // Seed (random by default)
     std::random_device rd;
-    unsigned int seed = rd();
+    int seed = static_cast<int>(rd());
     if (argc > 2) {
         seed = std::stoi(argv[2]);
     }
-    printf("Seed: %d + thread number\n", static_cast<int>(seed));
+    printf("Seeds: %d and thread number\n", seed);
 
     // Start timing
     double t0 = omp_get_wtime();
@@ -31,7 +31,8 @@ int main(int argc, char* argv[])
     #pragma omp parallel reduction(+:total_distance)
     {
         // Create a random number generator
-        std::mt19937_64 rng(seed + omp_get_thread_num());
+        std::seed_seq seq{seed, omp_get_thread_num()};
+        std::mt19937_64 rng(seq);
         std::uniform_real_distribution<double> dis(0.0, 1.0);
 
         // Print a few random values for debugging

@@ -12,18 +12,18 @@ SPDX-License-Identifier: CC-BY-4.0
 1. Running the code with default arguments uses a random seed:
 
        Samples: 10000000
-       Seed: 1499684558
-       Thread   0: A few random values: 0.2505 0.3620 0.9848
-       Average distance: 0.521416
-       Calculation took 232.703 milliseconds
+       Seed: 1740322028
+       Thread   0: A few random values: 0.9783 0.5619 0.2925
+       Average distance: 0.521524
+       Calculation took 233.130 milliseconds
 
    The output with a fixed seed (0):
 
        Samples: 10000000
        Seed: 0
-       Thread   0: A few random values: 0.0396 0.9921 0.1598
-       Average distance: 0.521372
-       Calculation took 232.494 milliseconds
+       Thread   0: A few random values: 0.8162 0.1267 0.3123
+       Average distance: 0.521324
+       Calculation took 234.036 milliseconds
 
 
 2. **C++**
@@ -33,35 +33,38 @@ SPDX-License-Identifier: CC-BY-4.0
 
        Samples: 10000000
        Seed: 0
-       Thread   0: A few random values: 0.7317 0.4409 0.7829
-       Thread   3: A few random values: 0.7317 0.4409 0.7829
-       Thread   1: A few random values: 0.7317 0.4409 0.7829
-       Thread   2: A few random values: 0.3266 0.5847 0.4754
-       Average distance: 0.521395
-       Calculation took 103.624 milliseconds
+       Thread   0: A few random values: 0.7972 0.7322 0.8610
+       Thread   2: A few random values: 0.7972 0.7322 0.8610
+       Thread   3: A few random values: 0.7972 0.7322 0.8610
+       Thread   1: A few random values: 0.8434 0.7972 0.7322
+       Average distance: 0.521259
+       Calculation took 97.578 milliseconds
 
    We see that there is an issue with the random number sampling
    as multiple threads are getting the same random values.
 
+   The issue is that the threads are sharing the same random number
+   generator.
+
    For a working solution, see `lines.cpp`. Output:
 
        Samples: 10000000
-       Seed: 0 + thread number
-       Thread   1: A few random values: 0.4512 0.1364 0.1339
-       Thread   0: A few random values: 0.0396 0.9921 0.1598
-       Thread   3: A few random values: 0.5902 0.1958 0.5588
-       Thread   2: A few random values: 0.7838 0.8502 0.9036
-       Average distance: 0.521431
-       Calculation took 65.212 milliseconds
+       Seeds: 0 and thread number
+       Thread   0: A few random values: 0.7252 0.8002 0.3484
+       Thread   1: A few random values: 0.1049 0.3741 0.9227
+       Thread   2: A few random values: 0.7151 0.7520 0.1685
+       Thread   3: A few random values: 0.2976 0.6741 0.5666
+       Average distance: 0.521422
+       Calculation took 65.180 milliseconds
 
-   The C++ code uses `omp_get_thread_num()` to set a different
-   seed for each thread in order to create a different series
-   of random numbers in each thread.
+   The code creates a private random number generator for each thread
+   and uses both the global seed and the thread number to seed
+   the thread-private generators.
 
    **Note:** While this resolves the immediate issue of identical sequences,
-   it is not a perfect solution. Using only slightly different seeds
-   may still lead to subtle correlations between the generated sequences,
-   depending on the random number generator. For demanding applications
+   it is not a perfect solution. The resulting random number streams
+   are not guaranteed to be fully independent. Subtle correlations
+   may exist between the streams. For demanding applications
    this could impact the statistical quality of the result.
    In such cases, more robust parallel random number generation techniques
    should be used.
