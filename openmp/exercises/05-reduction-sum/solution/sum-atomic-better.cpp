@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
     double t0 = omp_get_wtime();
 
     // Calculate sum
-    double sum = 0;
+    double total = 0;
     #pragma omp parallel
     {
         double thread_sum = 0.0;
@@ -30,13 +30,13 @@ int main(int argc, char* argv[])
         }
 
         #pragma omp atomic
-        sum += thread_sum;
+        total += thread_sum;
     }
 
     // End timing
     double t1 = omp_get_wtime();
 
-    printf("Sum: %f\n", sum);
+    printf("Sum: %f\n", total);
     printf("Calculation took %.3f milliseconds\n", (t1 - t0) * 1e3);
 
     return 0;

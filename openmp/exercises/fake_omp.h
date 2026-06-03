@@ -4,6 +4,15 @@
  * SPDX-License-Identifier: MIT
  */
 
+// Stub implementations of OpenMP runtime routines for use when
+// compiling without OpenMP:
+//
+//   #ifdef _OPENMP
+//   #include <omp.h>
+//   #else
+//   #include "fake_omp.h"
+//   #endif
+
 #ifndef _OPENMP
 
 #ifndef FAKE_OMP_H
