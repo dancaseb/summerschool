@@ -25,10 +25,13 @@ SPDX-License-Identifier: CC-BY-4.0
 - [Asynchronous kernels](04-streams-asynckernel)
 - [Asynchronous memory copy](04-streams-asyncmemcopy)
 - [Synchronizing with events](04-streams-eventssync)
+- [Bonus: Overlapping CPU and GPU execution](04-bonus-cpu-gpu-overlap)
 
 ### Memory management
 
-- [API learning exercise](05-memory-basics)
+- [Explicit vs. implicit memory management](05-memory-explicit-implicit)
+- [Minimizing memory allocations](05-memory-singlecopy)
+- [Using mempools](05-memory-mempools)
 
 ### Kernel optimizations
 
