@@ -51,3 +51,7 @@ solutions/programming/fortran/io/io
 *.Rproj
 .RData
 .Rhistory
+
+# Editor stuff
+.vscode
+*.code-workspace
