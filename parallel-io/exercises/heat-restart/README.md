@@ -18,4 +18,14 @@ calculation. So, when the program starts and a checkpoint file is present, it
 will replace the initial state with the one in the restart file.
 
 Use MPI-IO to accomplish the I/O routines. A starting point (C code) can be
-found at [c/io.c](c/io.c).
+found at [c/io.c](c/io.c). Build using the provided `Makefile` as follows.
+
+- Build exercise code
+```bash
+make -j6
+```
+
+- Build model solution
+```bash
+make -j6 TARGET=c/solution
+```
