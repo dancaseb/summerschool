@@ -17,11 +17,11 @@ HEAT_COMMON_LIB ?= $(HEAT_SHARED_DIR)/heat_common.a
 _PNGWRITER_OBJ := $(dir $(HEAT_COMMON_LIB))pngwriter.o
 
 $(HEAT_COMMON_LIB): $(_PNGWRITER_OBJ)
-	mkdir -p $(dir $@)
+	@mkdir -p $(dir $@)
 	ar rcs $@ $<
 
 $(_PNGWRITER_OBJ): $(HEAT_SHARED_DIR)/common/pngwriter.c $(HEAT_SHARED_DIR)/common/pngwriter.h
-	mkdir -p $(dir $@)
+	@mkdir -p $(dir $@)
 	$(CC) $(CCFLAGS) $(HEAT_SHARED_CFLAGS) -c $< -o $@
 
 .PHONY: heat-common-clean
