@@ -6,11 +6,15 @@ SPDX-License-Identifier: CC-BY-4.0
 
 ## Heat equation solver in parallel with MPI
 
-Parallelise our implementation of a two-dimensional heat equation solver using
-MPI. See [Code description](code-description.md) for some theory and more
-details about the code.
+The goal in this set of exercises is to parallelize an existing simulation
+code using various MPI approaches. The code is a two-dimensional heat equation
+solver that evolves the temperature field using local updates: the updated
+temperature at a given point is computed based solely on previous field values
+at that point and its neighbor points ("stencil").
+See [Code description](code-description.md) for some theory and details about
+the code.
 
-To parallelise the code, one needs to divide the grid into blocks of columns
+To parallelize the code, one needs to divide the grid into blocks of columns
 (in Fortran) or rows (in C/C++) and assign each block to one MPI task. Or in other
 words, share the work among the MPI tasks by doing a domain decomposition.
 
