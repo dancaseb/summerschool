@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2010 CSC - IT Center for Science Ltd. <www.csc.fi>
 SPDX-License-Identifier: CC-BY-4.0
 -->
 
-# General exercise instructions for Mahti
+# General instructions for Mahti
 
 ## Accessing Mahti
 
