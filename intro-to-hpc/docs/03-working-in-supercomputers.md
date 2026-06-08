@@ -1,6 +1,12 @@
+<!--
+SPDX-FileCopyrightText: 2010 CSC - IT Center for Science Ltd. <www.csc.fi>
+
+SPDX-License-Identifier: CC-BY-4.0
+-->
+
 ---
 title:  Working in supercomputers
-event:  CSC Summer School in High-Performance Computing 2025
+event:  CSC Summer School in High-Performance Computing 2026
 lang:   en
 ---
 
@@ -16,7 +22,6 @@ lang:   en
 
 # Anatomy of a supercomputer
 
-<!-- Copyright CSC -->
 ![](img/cluster_diagram.svg){.center width=100%}
 
 # Connecting to LUMI and CSC supercomputers
@@ -184,18 +189,11 @@ cc main.c -o main
 
 # Make rules
 
-<div class=column>
 - Make **rules** define how some part of your program is built
-    - **Target**: the output file (or aim) of your rule
-    - **Dependency**: which other targets your target depends on
-    - **Recipe**: how you produce your target
+  - **Target**: the output file (or aim) of your rule
+  - **Dependency**: which other targets your target depends on
+  - **Recipe**: how you produce your target
 - Rules are defined in a file which is by default called `Makefile`
-</div>
-
-<div class=column>
-_A make rule_
-![](img/rule.png){.center width=100%}
-</div>
 
 
 # Example Makefile
