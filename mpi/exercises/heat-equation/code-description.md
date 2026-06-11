@@ -21,7 +21,7 @@ equation solver.
 ### Theory
 
 The rate of change of the temperature field $u(x, y, t)$ over two spatial
-dimensions $x$ and $y$ and time $t$ with diffusivity $\alpha$ can be modelled
+dimensions $x$ and $y$ and time $t$ with diffusivity constant $\alpha$ can be modelled
 via the partial differential equation
 
 $$\frac{\partial u}{\partial t} = \alpha \nabla^2 u$$
