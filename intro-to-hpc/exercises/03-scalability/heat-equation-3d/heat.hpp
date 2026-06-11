@@ -1,7 +1,7 @@
 #pragma once
 #include "matrix.hpp"
 
-// Forward declaration
+// Forward declaration for parallel
 struct ParallelData;
 
 // Class for temperature field
@@ -20,9 +20,7 @@ struct Field {
 
     Matrix<double> temperature;
 
-#ifndef UNIFIED_MEMORY
-    double *temperature_dev = NULL;
-#endif
+    double* data_ptr;
 
     void setup(int nx_in, int ny_in, int nz_in, ParallelData& parallel);
 
@@ -34,12 +32,5 @@ struct Field {
     // standard (i,j) syntax for getting elements
     const double& operator()(int i, int j, int k) const {return temperature(i, j, k);}
 
-    double* devdata(int i=0, int j=0, int k=0) {
-#ifdef UNIFIED_MEMORY
-       return temperature.data(i, j, k);
-#else
-       return temperature_dev + i * (ny + 2) * (nz + 2) + j * (nz + 2) + k;
-#endif
-    }
-
 };
+
