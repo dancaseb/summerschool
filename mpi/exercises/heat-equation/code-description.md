@@ -130,6 +130,24 @@ only one neighbour and the inner ranks with two neighbours.
 
 ![domain decomposition Fortran](img/domain-decomposition-fortran.svg)
 
+With this parallelization pattern the pseudocode from above is modified to
+```python
+main():
+  initialize_parallelization()  # Init MPI and store info about neighbor domains
+  initialize_field()
+  write_field()
+
+  for time in time_steps:
+    halo_exchange_field()       # Get updated domain boundaries for this rank
+    evolve_field()
+    if write_this_time_step:
+      write_field()
+    swap_fields()
+
+  write_field()
+  finalize_field()
+  finalize_parallelization()    # Cleanup of everything in initialize_parallelization()
+```
 
 ### Code
 
