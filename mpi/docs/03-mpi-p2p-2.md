@@ -164,7 +164,7 @@ MPI_Probe(`source`{.input}, `tag`{.input}, `comm`{.input}, `status`{.output})
 - Example: scatter and gather type operations
 
 ```c++
-if (0 == rank) {
+if (rank == 0) {
   for (int i=1; i < ntasks; i++) {
     MPI_Send(&data, 1, MPI_INT, i, 42, MPI_COMM_WORLD);
   }
@@ -267,10 +267,10 @@ MPI_Sendrecv(message, msgsize, MPI_INT,
 dst = rank + 1;
 src = rank - 1;
 
-if (0 == rank) {
+if (rank == 0) {
     src = MPI_PROC_NULL;
 }
-if (ntasks - 1 == rank) {
+if (rank == ntasks - 1) {
     dst = MPI_PROC_NULL;
 }
 
