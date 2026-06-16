@@ -299,7 +299,7 @@ Moving particles
 
 The fraction of non-parallelizable parts limits the maximum speedup
 
-![](img/AmdahlsLaw.svg){.center width=50%}
+![](img/amdahl.svg){.center width=60%}
 
 
 # Communication to computation ratio
