@@ -37,10 +37,10 @@ SYNC_DIRS=(
 # --- Remote config ---
 if [[ "$TARGET_REMOTE" == "lumi" ]]; then
     REMOTE_HOST="$REMOTE_USER@lumi.csc.fi"
-    REMOTE_ROOT="/scratch/project_462001452/$USER/$REMOTE_DIRECTORY"
+    REMOTE_ROOT="/scratch/project_462001452/$REMOTE_USER/$REMOTE_DIRECTORY"
 elif [[ "$TARGET_REMOTE" == "mahti" ]]; then
     REMOTE_HOST="$REMOTE_USER@mahti.csc.fi"
-    REMOTE_ROOT="/scratch/project_2019219/$USER/$REMOTE_DIRECTORY"
+    REMOTE_ROOT="/scratch/project_2019219/$REMOTE_USER/$REMOTE_DIRECTORY"
 fi
 
 # Rsync common options:
