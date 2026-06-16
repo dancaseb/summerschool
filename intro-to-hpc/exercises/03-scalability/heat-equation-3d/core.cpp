@@ -23,14 +23,14 @@ void inline exchange_datatypes(Field& field, ParallelData& parallel)
               parallel.ngbrs[0][0], 11, parallel.comm, &parallel.requests[0]);
     MPI_Irecv(rbuf, 1, parallel.halotypes[0],
               parallel.ngbrs[0][1], 11, parallel.comm, &parallel.requests[1]);
-    
+
     sbuf = field.temperature.data(field.nx, 0, 0);
     rbuf = field.temperature.data(0, 0, 0);
     MPI_Isend(sbuf, 1, parallel.halotypes[0],
               parallel.ngbrs[0][1], 12, parallel.comm, &parallel.requests[2]);
     MPI_Irecv(rbuf, 1, parallel.halotypes[0],
               parallel.ngbrs[0][0], 12, parallel.comm, &parallel.requests[3]);
-    
+
     // y-direction
     sbuf = field.temperature.data(0, 1, 0);
     rbuf = field.temperature.data(0, field.ny + 1, 0);
@@ -38,14 +38,14 @@ void inline exchange_datatypes(Field& field, ParallelData& parallel)
               parallel.ngbrs[1][0], 21, parallel.comm, &parallel.requests[4]);
     MPI_Irecv(rbuf, 1, parallel.halotypes[1],
               parallel.ngbrs[1][1], 21, parallel.comm, &parallel.requests[5]);
-    
+
     sbuf = field.temperature.data(0, field.ny, 0);
     rbuf = field.temperature.data(0, 0, 0);
     MPI_Isend(sbuf, 1, parallel.halotypes[1],
               parallel.ngbrs[1][1], 22, parallel.comm, &parallel.requests[6]);
     MPI_Irecv(rbuf, 1, parallel.halotypes[1],
               parallel.ngbrs[1][0], 22, parallel.comm, &parallel.requests[7]);
-  
+
     // z-direction
     sbuf = field.temperature.data(0, 0, 1);
     rbuf = field.temperature.data(0, 0, field.nz + 1);
@@ -53,14 +53,14 @@ void inline exchange_datatypes(Field& field, ParallelData& parallel)
               parallel.ngbrs[2][0], 31, parallel.comm, &parallel.requests[8]);
     MPI_Irecv(rbuf, 1, parallel.halotypes[2],
               parallel.ngbrs[2][1], 31, parallel.comm, &parallel.requests[9]);
-    
+
     sbuf = field.temperature.data(0, 0, field.nz);
     rbuf = field.temperature.data(0, 0, 0);
     MPI_Isend(sbuf, 1, parallel.halotypes[2],
               parallel.ngbrs[2][1], 32, parallel.comm, &parallel.requests[10]);
     MPI_Irecv(rbuf, 1, parallel.halotypes[2],
               parallel.ngbrs[2][0], 32, parallel.comm, &parallel.requests[11]);
-    
+
     MPI_Waitall(12, parallel.requests, MPI_STATUSES_IGNORE);
 }
 #endif
@@ -77,19 +77,19 @@ void inline exchange_neighborhood(Field& field, ParallelData& parallel)
 
     // Determine displacements
     disp0 = reinterpret_cast<MPI_Aint> (field.temperature.data());
-    sdisps[0] =  reinterpret_cast<MPI_Aint> (field.temperature.data(1, 0, 0));        
-    sdisps[1] =  reinterpret_cast<MPI_Aint> (field.temperature.data(field.nx, 0, 0)); 
-    sdisps[2] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 1, 0));        
-    sdisps[3] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, field.ny, 0)); 
-    sdisps[4] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, 1));        
-    sdisps[5] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, field.nz)); 
+    sdisps[0] =  reinterpret_cast<MPI_Aint> (field.temperature.data(1, 0, 0));
+    sdisps[1] =  reinterpret_cast<MPI_Aint> (field.temperature.data(field.nx, 0, 0));
+    sdisps[2] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 1, 0));
+    sdisps[3] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, field.ny, 0));
+    sdisps[4] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, 1));
+    sdisps[5] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, field.nz));
 
-    rdisps[0] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, 0));            
-    rdisps[1] =  reinterpret_cast<MPI_Aint> (field.temperature.data(field.nx + 1, 0, 0)); 
-    rdisps[2] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, 0));            
-    rdisps[3] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, field.ny + 1, 0)); 
-    rdisps[4] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, 0));            
-    rdisps[5] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, field.nz + 1)); 
+    rdisps[0] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, 0));
+    rdisps[1] =  reinterpret_cast<MPI_Aint> (field.temperature.data(field.nx + 1, 0, 0));
+    rdisps[2] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, 0));
+    rdisps[3] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, field.ny + 1, 0));
+    rdisps[4] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, 0));
+    rdisps[5] =  reinterpret_cast<MPI_Aint> (field.temperature.data(0, 0, field.nz + 1));
 
     for (int i=0; i < 6; i++) {
       sdisps[i] -= disp0;
@@ -186,7 +186,7 @@ void inline exchange_packing(Field& field, ParallelData& parallel)
       for (int j=0; j < field.ny + 2; j++)
         for (int k=0; k < field.nz + 2; k++) {
           field.temperature(0, j, k) = parallel.recv_buffers[0][0](j, k);
-        }  
+        }
     if (parallel.ngbrs[0][1] != MPI_PROC_NULL)
       for (int j=0; j < field.ny + 2; j++)
         for (int k=0; k < field.nz + 2; k++) {

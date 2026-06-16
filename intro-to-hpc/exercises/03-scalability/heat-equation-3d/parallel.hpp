@@ -60,7 +60,7 @@ struct ParallelData {
 #pragma omp parallel
 #pragma omp single
       tmp_threads = omp_get_num_threads();
-      num_threads = tmp_threads;      
+      num_threads = tmp_threads;
 #endif
     };
 
@@ -75,4 +75,3 @@ struct ParallelData {
    }
 #endif
 };
-

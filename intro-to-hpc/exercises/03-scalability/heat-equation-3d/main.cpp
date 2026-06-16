@@ -42,16 +42,16 @@ int main(int argc, char **argv)
     if (0 == parallelization.rank) {
         std::cout << std::fixed << std::setprecision(6);
         std::cout << "Average temperature at start: " << average_temp << std::endl;
-    }    
+    }
 
-    const double a = 0.5;     // Diffusion constant 
+    const double a = 0.5;     // Diffusion constant
     auto dx2 = current.dx * current.dx;
     auto dy2 = current.dy * current.dy;
     auto dz2 = current.dz * current.dz;
-    // Largest stable time step 
+    // Largest stable time step
     auto dt = dx2 * dy2 * dz2 / (2.0 * a * (dx2 + dy2 + dz2));
 
-    //Get the start time stamp 
+    //Get the start time stamp
     auto start_clock = timer();
     double start_mpi, start_comp;
     double t_mpi = 0.0;
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     auto stop_clock = timer();
     t_comp /= parallelization.num_threads;
 
-    // Average temperature for reference 
+    // Average temperature for reference
     average_temp = average(previous);
 
     if (0 == parallelization.rank) {
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
         std::cout << "  Compute       " << t_comp << " s." << std::endl;
         std::cout << "Average temperature: " << average_temp << std::endl;
         if (1 == argc) {
-            std::cout << "Reference value with default arguments: " 
+            std::cout << "Reference value with default arguments: "
                       << 63.834223 << std::endl;
         }
     }

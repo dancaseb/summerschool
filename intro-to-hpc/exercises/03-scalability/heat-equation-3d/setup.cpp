@@ -87,11 +87,11 @@ void initialize(int argc, char *argv[], Field& current,
     }
 
     if (0 == parallel.rank) {
-        std::cout << "Simulation parameters: " 
+        std::cout << "Simulation parameters: "
                   << "height: " << height << " width: " << width << " length: " << length
                   << " time steps: " << nsteps << std::endl;
-        std::cout << "Number of MPI tasks: " << parallel.size 
-                  << " (" << parallel.dims[0] << " x " << parallel.dims[1] << " x " 
+        std::cout << "Number of MPI tasks: " << parallel.size
+                  << " (" << parallel.dims[0] << " x " << parallel.dims[1] << " x "
                   << parallel.dims[2] << ")" << std::endl;
 #ifdef _OPENMP
         std::cout << "Number of OpenMP threads: " << parallel.num_threads << std::endl;

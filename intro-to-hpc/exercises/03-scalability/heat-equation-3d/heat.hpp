@@ -11,7 +11,7 @@ struct ParallelData;
 // Class for temperature field
 struct Field {
     // nx and ny are the true dimensions of the field. The temperature matrix
-    // contains also ghost layers, so it will have dimensions nx+2 x ny+2 
+    // contains also ghost layers, so it will have dimensions nx+2 x ny+2
     int nx;                     // Local dimensions of the field
     int ny;
     int nz;
@@ -37,4 +37,3 @@ struct Field {
     const double& operator()(int i, int j, int k) const {return temperature(i, j, k);}
 
 };
-

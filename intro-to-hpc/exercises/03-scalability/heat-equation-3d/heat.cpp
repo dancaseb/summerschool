@@ -10,7 +10,7 @@
 #include <mpi.h>
 #endif
 
-void Field::setup(int nx_in, int ny_in, int nz_in, ParallelData& parallel) 
+void Field::setup(int nx_in, int ny_in, int nz_in, ParallelData& parallel)
 {
     nx_full = nx_in;
     ny_full = ny_in;
@@ -110,7 +110,7 @@ void Field::setup(int nx_in, int ny_in, int nz_in, ParallelData& parallel)
 
 void Field::generate(const ParallelData& parallel) {
 
-    // Radius of the source disc 
+    // Radius of the source disc
     double radius = (nx_full + ny_full + nz_full) / 18.0;
 #ifndef NO_FIRST_TOUCH
 #pragma omp parallel for collapse(2) schedule(static)
@@ -118,7 +118,7 @@ void Field::generate(const ParallelData& parallel) {
     for (int i = 0; i < nx + 2; i++) {
         for (int j = 0; j < ny + 2; j++) {
             for (int k = 0; k < nz + 2; k++) {
-                // Distance of point i, j, k from the origin 
+                // Distance of point i, j, k from the origin
                 auto dx = i + parallel.coords[0] * nx - nx_full / 2 + 1;
                 auto dy = j + parallel.coords[1] * ny - ny_full / 2 + 1;
                 auto dz = k + parallel.coords[2] * nz - nz_full / 2 + 1;
@@ -141,7 +141,7 @@ void Field::generate(const ParallelData& parallel) {
     if (parallel.coords[2] == parallel.dims[2] - 1)
       for (int i = 0; i < nx + 2; i++) {
         for (int j = 0; j < ny + 2; j++) {
-          temperature(i, j, nz + 1) = 35.0;      
+          temperature(i, j, nz + 1) = 35.0;
         }
       }
 
