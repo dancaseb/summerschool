@@ -11,13 +11,13 @@ In this exercise we practise performing a scalability analysis of a simulation c
 We analyse the scalability provided three-dimensional heat equation solver under [heat-equation-3d](heat-equation-3d)
 by running the code with different node counts and collect the data systematically in the table below:
 
-| Nodes | Runtime (s) | Resource cost (Node-s) | Speedup | Parallel efficiency |
-| ----: | ----------: | ---------------------: | ------: | ------------------: |
-|    1  |             |                        |         |                     |
-|    2  |             |                        |         |                     |
-|    4  |             |                        |         |                     |
-|    8  |             |                        |         |                     |
-|   16  |             |                        |         |                     |
+| Nodes | Runtime (s) | Resource cost (Node-s) | Speedup | Parallel efficiency | Electricity cost (Wh) | Monetary cost (€) |
+| ----: | ----------: | ---------------------: | ------: | ------------------: | ---------------------: | ----------------: |
+|    1  |             |                        |         |                     |                        |                   |
+|    2  |             |                        |         |                     |                        |                   |
+|    4  |             |                        |         |                     |                        |                   |
+|    8  |             |                        |         |                     |                        |                   |
+|   16  |             |                        |         |                     |                        |                   |
 
 The columns are calculated from the node count and the runtime as follows
 ($T_1$ is the runtime with a single node and $T_n$ is the runtime with $n$ nodes):
@@ -31,14 +31,19 @@ n \times T_n
 - Speed up is defined as
 
 ```math
-\frac{T_1}{T_n}
+S_n = \frac{T_1}{T_n}
 ```
 
 - Parallel efficiency is defined as
 
 ```math
-\frac{T_1}{n T_n}
+E_n = \frac{T_1}{n T_n}
 ```
+
+- For electricity cost, one can be estimate that a single CPU node consumes 600 W.
+    - Note that this is only the power used by the CPUs, and does not include cooling, interconnect network etc.
+
+- For monetary cost, use CSC commercial pricing where a single node for one hour (1 Node-h) costs 6 €.
 
 As a rule of thumb, parallel efficiencies higher than 75% are usually considered reasonable.
 This corresponds to a speedup of 1.5 when doubling the number nodes or to a speedup of 3 when quadrupling and so on.
