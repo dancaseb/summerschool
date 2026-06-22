@@ -300,7 +300,7 @@ MPI checks that the incoming message will fit into the supplied
 storage before receiving it. The standard behaviour on error is for
 the whole MPI program to exit immediately with a fatal error
 
-10. What happens if the incoming message (of size "n") is smaller than "count"
+11. What happens if the incoming message (of size "n") is smaller than "count"
 
    A. the receive fails with an error
    B. the receive reports zero data received
@@ -321,7 +321,7 @@ halo-swapping) you may know the size of all messages so #n" and
 (e.g. particle-based codes) you may not know how many items are being
 sent so you must ensure that you have enough storage locally
 
-11. How is the actual size of the incoming message reported?
+12. How is the actual size of the incoming message reported?
 
    A. the value of "count" in the receive is updated.
    B. MPI cannot tell you
@@ -349,7 +349,7 @@ SPDX-SnippetCopyrightText: 2020 CSC - IT Center for Science Ltd. <www.csc.fi>
 SPDX-License-Identifier: CC-BY-4.0
 -->
 
-12. How can boundary MPI tasks *e.g.* in communication chain be treated?
+13. How can boundary MPI tasks *e.g.* in communication chain be treated?
 
    A. Using `MPI_PROC_NULL`
    B. Using `MPI_ANY_SOURCE`
@@ -369,7 +369,7 @@ domains only send or receive. In periodic chains, modulo operations can
 be used for wrapping destination and source ranks. (MPI_Cart_create is
 even more convenient in most cases but not discussed in this course).
 
-13. Which of the following statements apply to `MPI_Sendrecv`?
+14. Which of the following statements apply to `MPI_Sendrecv`?
 
    A. It is required for correct functioning of MPI programs
    B. It is syntactic sugar in MPI
@@ -387,7 +387,7 @@ Correctly functioning programs can be written just with MPI_Send and
 MPI_Recv, however, combined Sendrecv can prevent deadlocks and improve
 performance.
 
-14. Which of the following statements apply to non-blocking communication?
+15. Which of the following statements apply to non-blocking communication?
 
    A. Communication happens in the background during computation
    B. Latency is smaller and bandwidth better than with blocking
@@ -411,7 +411,7 @@ many cases negligible. However, by initiating several communications
 (i.e. all directions in 3d halo exchange) one can in some cases
 achieve higher aggregate bandwidth.
 
-7. What is outcome of the following code snippet?
+16. What is outcome of the following code snippet?
    ```cpp
    if (0 == myid) {
       int a = 4;
