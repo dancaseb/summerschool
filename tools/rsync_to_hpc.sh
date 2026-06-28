@@ -8,7 +8,7 @@
 # so that folder structure is preserved relative to a configurable "root" directory
 
 # --- Replace with your username ---
-REMOTE_USER=""
+REMOTE_USER="danieree"
 
 # Files are synced to /scratch/<summer school project>/$USER/$REMOTE_DIRECTORY.
 # You can change to this to something else if you wish.

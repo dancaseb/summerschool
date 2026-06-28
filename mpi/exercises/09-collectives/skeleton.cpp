@@ -37,10 +37,26 @@ int main(int argc, char *argv[])
     /* TODO: use a single collective communication call
      *       (and maybe prepare some parameters for the call)
      */
+    // CASE 1
+    // MPI_Bcast(sendbuf.data(), sendbuf.size(), MPI_INT, 0, MPI_COMM_WORLD);
+    // print_buffers(sendbuf);
 
+    // CASE 2
+    // MPI_Scatter(sendbuf.data(), 2, MPI_INT, recvbuf.data(), 2, MPI_INT, 0,MPI_COMM_WORLD);
+    // print_buffers(recvbuf);
+
+    // CASE 3
+    // int recvcounts[4] = {1,1,2,4};
+    // int displs[4] = {0,1,2,4};
+    // MPI_Gatherv(sendbuf.data(), recvcounts[rank], MPI_INT, recvbuf.data(),recvcounts ,displs, MPI_INT, 1, MPI_COMM_WORLD );
+    // print_buffers(recvbuf);
+
+    // CASE 4
+    MPI_Alltoall(sendbuf.data(), 2, MPI_INT, recvbuf.data(), 2, MPI_INT, MPI_COMM_WORLD);
+    print_buffers(recvbuf);
     /* Print data that was received */
     /* TODO: use correct buffer */
-    print_buffers(recvbuf);
+    // print_buffers(recvbuf);
 
     MPI_Finalize();
     return 0;

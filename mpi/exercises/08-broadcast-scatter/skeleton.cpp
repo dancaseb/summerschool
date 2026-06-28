@@ -33,7 +33,35 @@ int main(int argc, char *argv[])
 
     /* Send everywhere */
     // TODO: Implement the broadcast of the array buf
+    // TASK 1
+    // if (rank == 0) {
+    //     for (int i = 1; i < size; i++) {
+    //         MPI_Send(buf.data(), buf_size, MPI_INT, i, 0, MPI_COMM_WORLD);
+    //     }
+    // } else {
+    //     MPI_Recv(buf.data(), buf_size, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    // }
 
+    // TASK 2
+    // MPI_Bcast(buf.data(),buf_size,MPI_INT,0,MPI_COMM_WORLD);
+
+    // TASK 3
+    
+    // int chunk = buf_size / size;
+    // if (rank == 0) {
+    //     for (int i = 1; i < size; i++) {
+    //         MPI_Send(buf.data() + (i * chunk), chunk, MPI_INT, i, 0, MPI_COMM_WORLD);
+    //     }
+    // } else {
+    //     MPI_Recv(buf.data(), chunk, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    // }
+
+
+    // TASK 4
+    std::vector<int> recv_buf(buf_size);
+    int chunk = buf_size / size;
+    MPI_Scatter(buf.data(), chunk, MPI_INT, recv_buf.data(), chunk, MPI_INT, 0, MPI_COMM_WORLD);
+    print_buffer(recv_buf);
     /* End timing */
     double t1 = MPI_Wtime();
 

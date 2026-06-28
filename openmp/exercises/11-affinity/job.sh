@@ -5,17 +5,19 @@
 #SBATCH --partition=small
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=1
+#SBATCH --cpus-per-task=128
 #SBATCH --mem-per-cpu=1G
 #SBATCH --time=00:05:00
 
 # Set the number of threads based on cpus-per-task
-export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-1}
+export OMP_NUM_THREADS=4
 
 # Place and bind threads to single hardware threads
 # Comment the following lines if binding is not desired
-#export OMP_PLACES=cores
-#export OMP_PROC_BIND=spread
+export OMP_PLACES=sockets
+export OMP_PROC_BIND=spread
+export OMP_AFFINITY_FORMAT="Thread %0.3n affinity %A"
+export OMP_DISPLAY_AFFINITY=true
 
 # Run the program
 srun ./hello.x

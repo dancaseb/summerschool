@@ -12,9 +12,10 @@
 void exchange(Field& field, const ParallelData parallel)
 {
 
-    double* sbuf;
+    double* sbuf = field.temperature.data();
     double* rbuf;
     // TODO start: implement halo exchange
+
 
     // You can utilize the data() method of the Matrix class to obtain pointer
     // to element, e.g. field.temperature.data(i, j)

@@ -25,14 +25,25 @@ int main(void)
     double t0 = omp_get_wtime();
 
     printf("Start with %d\n", s);
+#pragma omp parallel
+#pragma omp single
+{
+    #pragma omp task depend(out:a)
     a = func_A(s);
+    #pragma omp task depend(in:a) depend(out:b)
     b = func_B(a);
+    #pragma omp task depend(in:a) depend(out:c)
     c = func_C(a);
+    #pragma omp task depend(in:a) depend(out:d)
     d = func_D(a);
+    #pragma omp task depend(in:b) depend(out:e)
     e = func_E(b);
+    #pragma omp task depend(in:c,d) depend(out:f)
     f = func_F(c, d);
+    #pragma omp task depend(in:e,f) depend(out:g)
     g = func_G(e, f);
     printf("End with %d\n", g);
+}
 
     // End timing
     double t1 = omp_get_wtime();

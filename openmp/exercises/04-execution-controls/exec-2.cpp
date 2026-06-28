@@ -8,23 +8,13 @@
 int main(void)
 {
     int var = 42;
-    int num_threads;
 
     printf("Main thread: initial var = %d\n", var);
-    #pragma omp parallel firstprivate(var) private(num_threads)
+    #pragma omp parallel firstprivate(var)
     {
-        // #pragma omp masked filter(0)
-        // num_threads = omp_get_num_threads();
-        // int last_thread = num_threads - 1;
-        // #pragma omp masked filter(last_thread)
-        // if (omp_get_thread_num() == last_thread)
-        // {        
-        //     printf("Thread  %3d: initial var = %d\n", omp_get_thread_num(), var);
-        // }
-        #pragma omp single nowait
         printf("Thread  %3d: initial var = %d\n", omp_get_thread_num(), var);
-
         var = omp_get_thread_num();
+        #pragma omp barrier
         printf("Thread  %3d:   final var = %d\n", omp_get_thread_num(), var);
     }
     printf("Main thread:   final var = %d\n", var);

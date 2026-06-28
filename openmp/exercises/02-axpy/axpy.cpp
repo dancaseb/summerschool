@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
 
     // Calculate axpy
     // TODO: Add OpenMP directives for parallelization
+#pragma omp parallel for
     for (int i = 0; i < n; i++) {
         y[i] += alpha * x[i];
     }

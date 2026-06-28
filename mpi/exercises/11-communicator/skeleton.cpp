@@ -14,7 +14,7 @@ void print_buffers(std::vector<int> &buffer);
 
 int main(int argc, char *argv[])
 {
-    int ntasks, rank, color;
+    int ntasks, rank, color, sub_rank;
     std::vector<int> sendbuf(2 * NTASKS), recvbuf(2 * NTASKS);
 
     MPI_Comm sub_comm;
@@ -40,6 +40,16 @@ int main(int argc, char *argv[])
      *       use a single collective communication call
      *       (and maybe prepare some parameters for the call)
      */
+    if (rank < 2){
+        color = 0;
+    } else {
+        color = 2;
+    }
+
+    MPI_Comm_split(MPI_COMM_WORLD, color, rank, &sub_comm);
+    MPI_Comm_rank(sub_comm, &sub_rank);
+
+    MPI_Reduce(sendbuf.data(), recvbuf.data(), 2 * NTASKS, MPI_INT, MPI_SUM, 0, sub_comm);
 
     /* Print data that was received */
     print_buffers(recvbuf);

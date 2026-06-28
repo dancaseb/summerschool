@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: MIT
 
 # LUMI
-CC=CC -O3 -Wall
+#CC=CC -O3 -Wall
 # Mahti
-#CC=mpicxx -O3 -Wall
+CC=mpicxx -O3 -Wall
 
 prog.x: prog.o util.o
 	$(CC) $^ -o $@

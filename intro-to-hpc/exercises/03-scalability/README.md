@@ -13,11 +13,11 @@ by running the code with different node counts and collect the data systematical
 
 | Nodes | Runtime (s) | Resource cost (Node-s) | Speedup | Parallel efficiency | Electricity cost (Wh) | Monetary cost (€) |
 | ----: | ----------: | ---------------------: | ------: | ------------------: | ---------------------: | ----------------: |
-|    1  |             |                        |         |                     |                        |                   |
-|    2  |             |                        |         |                     |                        |                   |
-|    4  |             |                        |         |                     |                        |                   |
-|    8  |             |                        |         |                     |                        |                   |
-|   16  |             |                        |         |                     |                        |                   |
+|    1  |   31.551683          |    31.551683                    |         |                     |                        |                   |
+|    2  |   17.131070          |        34.26214                |         |                     |                        |                   |
+|    4  |    9.749826         |      38.999304                  |         |                     |                        |                   |
+|    8  | 5.560938            |    44.487504                    |         |                     |                        |                   |
+|   16  |    3.207132          |     51,314112                   |         |                     |                        |                   |
 
 The columns are calculated from the node count and the runtime as follows
 ($T_1$ is the runtime with a single node and $T_n$ is the runtime with $n$ nodes):

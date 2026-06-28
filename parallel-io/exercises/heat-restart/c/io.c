@@ -173,11 +173,17 @@ void write_restart(field *temperature, parallel_data *parallel, int iter)
 void read_restart(field *temperature, parallel_data *parallel, int *iter)
 {
     // TODO: open the file called CHECKPOINT (defined in heat.h)
-
+    
+    // probably should use hdf5 functions
+    MPI_File file;
+    MPI_File_open(MPI_COMM_WORLD, CHECKPOINT, MPI_MODE_RDONLY, MPI_INFO_NULL, &file);
+    
     // TODO: open the dataset containing the temperature field.
+
 
     // TODO: read the dimensions of the dataspace and
     //   set correct dimensions to MPI metadata
+    int dim[2] = { temperature->nx_full, temperature->ny_full };
     parallel_setup(parallel, dim[0], dim[1]);
 
     //   set local dimensions and allocate memory for the data

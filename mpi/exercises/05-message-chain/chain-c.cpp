@@ -45,7 +45,12 @@ int main(int argc, char *argv[]) {
     }
     
     int sendTag = rank + 1;
-    MPI_Send(message.data(), numElements, MPI_INT, destination, sendTag, MPI_COMM_WORLD);
+    if (rank % 2 == 0) {
+        MPI_Send(message.data(), numElements, MPI_INT, destination, sendTag, MPI_COMM_WORLD);
+        MPI_Recv(receiveBuffer.data(), numElements, MPI_INT, source, rank, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+    }
+
 
 
     printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",

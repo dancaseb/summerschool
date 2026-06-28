@@ -10,8 +10,8 @@
 
 int main(int argc, char *argv[]) {
 
-    int arraysize = 100000;
-    int msgsize = 100;
+    int arraysize = 1000000000;
+    int msgsize = 1000000000;
 
     int rank, ntasks;
     MPI_Init(&argc, &argv);
@@ -41,13 +41,16 @@ int main(int argc, char *argv[]) {
 
     if (rank == 0) {
 
-        // ... your code here ...
+        MPI_Send(message, msgsize, MPI_INT, 1, 1, MPI_COMM_WORLD);
+
+        MPI_Recv(receiveBuffer, arraysize, MPI_INT, 1, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
         printf("Rank %i received %i elements, first %i\n", rank, msgsize, receiveBuffer[0]);
     }
     else if (rank == 1) {
 
-        // .. your code here ...
+        MPI_Recv(receiveBuffer, arraysize, MPI_INT, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Send(message, msgsize, MPI_INT, 0, 2, MPI_COMM_WORLD);
 
         printf("Rank %i received %i elements, first %i\n", rank, msgsize, receiveBuffer[0]);
     }
