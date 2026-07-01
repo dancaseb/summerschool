@@ -1,9 +1,8 @@
-<!--
-SPDX-FileCopyrightText: 2026 CSC - IT Center for Science Ltd. <www.csc.fi>
-
-SPDX-License-Identifier: CC-BY-4.0
--->
 ---
+# SPDX-FileCopyrightText: 2026 CSC - IT Center for Science Ltd. <www.csc.fi>
+#
+# SPDX-License-Identifier: CC-BY-4.0
+
 title:  HPC application deployment & production
 event:  CSC Summer School in High-Performance Computing 2026
 lang:   en
@@ -61,7 +60,7 @@ lang:   en
    - 14 supercomputers
    - 10 quantum computers
 
-<img src="images/EuroHPC_Members_Map.png" align="right" width=47%/>
+<img data-src="images/EuroHPC_Members_Map.png" align="right" width=47%/>
 </div>
 
 
@@ -103,7 +102,7 @@ lang:   en
 </div>
 
 <div class=column style=width:56%>
-<img src="images/EuroHPC_Regular_Access_cycle_2026.png" align=left width=100%/>
+<img data-src="images/EuroHPC_Regular_Access_cycle_2026.png" align=left width=100%/>
 </div>
 
 
@@ -304,9 +303,6 @@ srun -n 1 my_code --version > job_version_$SLURM_JOBID
     - Code, modules, job parameters
     - Expected result/behaviour
     - What is abnormal
-
-
-# Quiz?
 
 
 # Conclusions 
